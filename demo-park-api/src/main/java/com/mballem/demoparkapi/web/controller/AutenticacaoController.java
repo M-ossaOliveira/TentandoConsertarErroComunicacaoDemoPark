@@ -26,7 +26,7 @@ public class AutenticacaoController {
     @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UsuarioLoginDto dto,
                                                HttpServletRequest request){
-        log.info("Processo de autenticação pelo logim {}", dto.getUsername());
+        log.info("Processo de autenticação pelo login {}", dto.getUsername());
         try{
             UsernamePasswordAuthenticationToken authenticationToken=
                     new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword());

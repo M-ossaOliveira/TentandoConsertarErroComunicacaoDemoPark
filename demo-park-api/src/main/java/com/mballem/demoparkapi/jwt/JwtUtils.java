@@ -21,7 +21,7 @@ public class JwtUtils {
     public static final String SECRET_KEY= "AbCdEf12.xYz_7890ab.LMnoPQrsTuv1";
     public static final long EXPIRE_DAYS=0;
     public static final long EXPIRE_HOURS=0;
-    public static final long EXPIRE_MINUTES=10;
+    public static final long EXPIRE_MINUTES=30;
 
     private JwtUtils (){}
 

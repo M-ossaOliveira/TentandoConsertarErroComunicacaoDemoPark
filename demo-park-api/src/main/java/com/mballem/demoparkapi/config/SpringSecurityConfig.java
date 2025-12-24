@@ -1,5 +1,6 @@
 package com.mballem.demoparkapi.config;
 
+import com.mballem.demoparkapi.jwt.JwtAuthenticationEntryPoint;
 import com.mballem.demoparkapi.jwt.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,8 @@ public class SpringSecurityConfig {
                                                                                     )
                                                          )
                 .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex->ex
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 .build();
     }
 

@@ -27,6 +27,7 @@ public class SpringDocOpenApiCofig {
         return new SecurityScheme()
                 .description("Insira um bearer token válido para prosseguir")
                 .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
                 .in(SecurityScheme.In.HEADER)
                 .bearerFormat("JWT")
                 .name("security");

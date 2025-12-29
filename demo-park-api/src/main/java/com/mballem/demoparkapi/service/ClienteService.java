@@ -3,6 +3,7 @@ package com.mballem.demoparkapi.service;
 import com.mballem.demoparkapi.entity.Cliente;
 import com.mballem.demoparkapi.exception.EntityNotFoundException;
 import com.mballem.demoparkapi.repository.ClienteRepository;
+import com.mballem.demoparkapi.repository.projection.ClienteProjection;
 import com.mballem.demoparkapi.web.exception.CpfUniqueViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class ClienteService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Cliente> buscarTodos(Pageable pageable){
-        return clienteRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+    public Page<ClienteProjection> buscarTodos(Pageable pageable){
+        return clienteRepository.findAllPageable(pageable);
     }
 }

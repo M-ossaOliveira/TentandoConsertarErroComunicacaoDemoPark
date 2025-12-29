@@ -5,11 +5,14 @@ import com.mballem.demoparkapi.entity.Cliente;
 import com.mballem.demoparkapi.exception.EntityNotFoundException;
 import com.mballem.demoparkapi.jwt.JwtUserDetails;
 import com.mballem.demoparkapi.repository.ClienteRepository;
+import com.mballem.demoparkapi.repository.projection.ClienteProjection;
 import com.mballem.demoparkapi.service.ClienteService;
 import com.mballem.demoparkapi.service.UsuarioService;
 import com.mballem.demoparkapi.web.dto.ClienteCreateDto;
 import com.mballem.demoparkapi.web.dto.ClienteResponseDto;
+import com.mballem.demoparkapi.web.dto.PageableDto;
 import com.mballem.demoparkapi.web.dto.mapper.ClienteMapper;
+import com.mballem.demoparkapi.web.dto.mapper.PageableMapper;
 import com.mballem.demoparkapi.web.exception.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,7 +28,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Tag(name = "Clientes", description = "Contém todas as opereções relativas ao recurso de um cliente")
@@ -86,8 +89,8 @@ public class ClienteController {
 
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<Cliente>>getAll(Pageable pageable){
-        Page<Cliente> clientes=clienteService.buscarTodos(pageable);
-        return ResponseEntity.ok(clientes);
+    public ResponseEntity<PageableDto>getAll(Pageable pageable){
+        Page<ClienteProjection> clientes=clienteService.buscarTodos(pageable);
+        return ResponseEntity.ok(PageableMapper.toDto(clientes));
     }
 }

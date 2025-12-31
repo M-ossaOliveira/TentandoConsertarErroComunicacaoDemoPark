@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "/sql/vagas/vagas-insert.sql",executionPhase =
         Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -81,4 +83,62 @@ public class VagaIT {
                 .jsonPath("method").isEqualTo("POST")
                 .jsonPath("path").isEqualTo("/api/v1/vagas");
     }
+
+    @Test
+    public void buscarVaga_ComCodigoExistente_RetornarVagaComStatus200(){
+        testClient
+                .get()
+                .uri("/api/v1/vagas/{codigo}","A-01")
+                .headers(JwtAuthentication.getHeaderAuthorization
+                        (testClient,"ana@email.com","123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("id").isEqualTo(10)
+                .jsonPath("$.codigo").isEqualTo("A-01")
+                .jsonPath("status").isEqualTo("LIVRE");
+    }
+
+    @Test
+    public void buscarVaga_ComCodigoInexistente_RetornarErrorMessageComStatus404(){
+        testClient
+                .get()
+                .uri("/api/v1/vagas/{codigo}","A-10")
+                .headers(JwtAuthentication.getHeaderAuthorization
+                        (testClient,"ana@email.com","123456"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("status").isEqualTo(404)
+                .jsonPath("method").isEqualTo("GET")
+                .jsonPath("path").isEqualTo("/api/v1/vagas/A-10");
+    }
+
+
+    /*@Test
+    Quando não encontrava o erro
+
+    void buscarVaga_ComCodigoExistente_RetornarVagaComStatus200_Diagnostico() {
+        var result = testClient
+                .get()
+                .uri("/api/v1/vagas/{codigo}", "A-01")
+                .accept(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(
+                        testClient, "ana@email.com", "123456"
+                                                                 ))
+                .exchange()
+                .expectStatus().isOk()
+                .returnResult(String.class);
+
+        var status = result.getStatus();
+        var headers = result.getResponseHeaders();
+        var body = result.getResponseBody().blockFirst(); // pega primeira parte do body (String)
+
+        System.out.println(">>> STATUS: " + status);
+        System.out.println(">>> CONTENT-TYPE: " + headers.getContentType());
+        System.out.println(">>> BODY: " + body);
+
+        assertNotNull(body, "O corpo da resposta veio nulo");
+    }*/
+
 }

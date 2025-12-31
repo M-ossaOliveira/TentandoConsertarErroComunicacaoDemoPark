@@ -10,6 +10,6 @@ import lombok.Setter;
 public class VagaResponseDto {
 
     private Long id;
-    private String codigos;
+    private String codigo;
     private String status;
 }

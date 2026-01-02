@@ -20,7 +20,7 @@ public class ClienteVaga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="recibo",nullable = false, unique = true, length = 15)
+    @Column(name="recibo",nullable = false, unique = true, length = 40)
     private String recibo;
     @Column(name="placa",nullable = false, length = 8)
     private String placa;
@@ -44,6 +44,7 @@ public class ClienteVaga {
     @ManyToOne
     @JoinColumn(name="id_cliente",nullable = false)
     private Cliente cliente;
+    @ManyToOne
     @JoinColumn(name="id_vaga",nullable = false)
     private Vaga vaga;
 

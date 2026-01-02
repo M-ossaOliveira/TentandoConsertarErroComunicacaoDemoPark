@@ -24,7 +24,7 @@ import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/vagas")
+@RequestMapping("/api/v1/vagas")
 public class VagaController {
 
     private final VagaService vagaService;
@@ -63,13 +63,13 @@ public class VagaController {
             security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Recurso criado com sucesso",
-                            content = @Content(mediaType = " application/json;charset=UTF-8",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = VagaResponseDto.class))),
                     @ApiResponse(responseCode = "404", description = "Vaga não localizada",
-                            content = @Content(mediaType = " application/json;charset=UTF-8",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ErrorMessage.class))),
                     @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil de CLIENTE",
-                            content = @Content(mediaType = " application/json;charset=UTF-8",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ErrorMessage.class))
                     )
             })
